@@ -50,6 +50,23 @@ class TicTacToe {
     }
   }
 
+  _checkTie() {
+    let valueInArray = [];
+    for (let i = 0; i < this.view.length; i++) {
+      for (let j = 0; j < this.view[i].length; j++) {
+        if (this.view[i][j] !== "-") valueInArray.push(this.view[i][j]);
+      }
+    }
+
+    function alertTie() {
+      alert("Game Tie!");
+    }
+
+    if (valueInArray.length === 9 && this.gameOver === "") {
+      setTimeout(alertTie.bind(this), 200);
+    }
+  }
+
   _yourTurn() {
     if (this.turn === "x") this.turn = "o";
     else if (this.turn === "o") this.turn = "x";
@@ -80,6 +97,8 @@ class TicTacToe {
     this._checkRow(secondDiagonal);
 
     if (this.gameOver !== "") this.onWin();
+
+    this._checkTie();
   }
 
   _alertMessage() {
