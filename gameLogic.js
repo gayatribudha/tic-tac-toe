@@ -30,11 +30,15 @@ class TicTacToe {
   }
 
   _init() {
-    for (let k = 0; k < this.wrapper.children.length; k++) {
-      this.wrapper.children[k].addEventListener("click", (e) => {
+    for (
+      let nthChild = 0;
+      nthChild < this.wrapper.children.length;
+      nthChild++
+    ) {
+      this.wrapper.children[nthChild].addEventListener("click", (e) => {
         // here we convert i coming from the div to i,j to put the value in above view[i][j] and finally render the changed view to the frontend
-        const i = (k - (k % 3)) / 3;
-        const j = k % 3;
+        const i = (nthChild - (nthChild % 3)) / 3;
+        const j = nthChild % 3;
         if (this.gameOver === "" && this.view[i][j] === "-") {
           if (this.turn === "x") this.view[i][j] = "x";
           else if (this.turn === "o") this.view[i][j] = "o";
@@ -69,16 +73,23 @@ class TicTacToe {
       this._checkRow(rowValue.join(""));
     }
 
-    const firstDiagnol = this.view[0][0] + this.view[1][1] + this.view[2][2];
-    this._checkRow(firstDiagnol);
+    const firstDiagonal = this.view[0][0] + this.view[1][1] + this.view[2][2];
+    this._checkRow(firstDiagonal);
 
-    const secondDiagnol = this.view[0][2] + this.view[1][1] + this.view[2][0];
-    this._checkRow(secondDiagnol);
+    const secondDiagonal = this.view[0][2] + this.view[1][1] + this.view[2][0];
+    this._checkRow(secondDiagonal);
 
     if (this.gameOver !== "") this.onWin();
   }
 
-  onWin() {}
+  _alertMessage() {
+    if (this.gameOver === "x") alert("X wins.");
+    else if (this.gameOver === "o") alert("O wins.");
+  }
+
+  onWin() {
+    setTimeout(this._alertMessage.bind(this), 200);
+  }
 
   reset() {
     this.view = [
