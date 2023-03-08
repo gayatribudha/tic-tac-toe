@@ -1,29 +1,37 @@
 "use strict";
 
 class TicTacToe {
-  view = [
-    ["-", "-", "-"],
-    ["-", "-", "-"],
-    ["-", "-", "-"],
-  ];
-  gameOver = "";
-  turn = "x";
+  view;
+  gameOver;
+  turn;
+
+  reset() {
+    this.view = [
+      ["-", "-", "-"],
+      ["-", "-", "-"],
+      ["-", "-", "-"],
+    ];
+    this.count = 0;
+    this.gameOver = "";
+    this.turn = "x";
+    this._render();
+  }
+
   constructor(wrapper) {
     this.wrapper = wrapper;
-    this._render();
+    this.reset();
     this._init();
   }
 
   _render() {
     for (let i = 0; i < this.view.length; i++) {
       for (let j = 0; j < this.view[i].length; j++) {
-        // here you make (0,0) index from above 2d array 0 index of div in html so that it render in the right div
         const nthChild = i * 3 + j;
         if (this.view[i][j] === "-")
           this.wrapper.children[nthChild].innerText = "";
-        else if (this.view[i][j] === "x")
+        else if (this.view[i][j] === "x") {
           this.wrapper.children[nthChild].innerText = "X";
-        else if (this.view[i][j] === "o")
+        } else if (this.view[i][j] === "o")
           this.wrapper.children[nthChild].innerText = "O";
       }
     }
@@ -36,12 +44,12 @@ class TicTacToe {
       nthChild++
     ) {
       this.wrapper.children[nthChild].addEventListener("click", (e) => {
-        // here we convert i coming from the div to i,j to put the value in above view[i][j] and finally render the changed view to the frontend
         const i = (nthChild - (nthChild % 3)) / 3;
         const j = nthChild % 3;
         if (this.gameOver === "" && this.view[i][j] === "-") {
-          if (this.turn === "x") this.view[i][j] = "x";
-          else if (this.turn === "o") this.view[i][j] = "o";
+          if (this.turn === "x") {
+            this.view[i][j] = "x";
+          } else if (this.turn === "o") this.view[i][j] = "o";
           this._render();
           this._checkLine();
           this._yourTurn();
@@ -50,26 +58,14 @@ class TicTacToe {
     }
   }
 
-  _checkTie() {
-    let valueInArray = [];
-    for (let i = 0; i < this.view.length; i++) {
-      for (let j = 0; j < this.view[i].length; j++) {
-        if (this.view[i][j] !== "-") valueInArray.push(this.view[i][j]);
-      }
-    }
-
-    function alertTie() {
-      alert("Game Tie!");
-    }
-
-    if (valueInArray.length === 9 && this.gameOver === "") {
-      setTimeout(alertTie.bind(this), 200);
-    }
-  }
-
   _yourTurn() {
     if (this.turn === "x") this.turn = "o";
     else if (this.turn === "o") this.turn = "x";
+  }
+
+  _checkTie() {
+    console.log(this.view.flat());
+    if (!this.view.flat().includes("-")) setTimeout(this.onTie);
   }
 
   _checkRow(row) {
@@ -96,28 +92,11 @@ class TicTacToe {
     const secondDiagonal = this.view[0][2] + this.view[1][1] + this.view[2][0];
     this._checkRow(secondDiagonal);
 
-    if (this.gameOver !== "") this.onWin();
+    if (this.gameOver !== "") setTimeout(() => this.onWin(this.gameOver), 0);
 
-    this._checkTie();
+    if (this.gameOver === "") this._checkTie();
   }
 
-  _alertMessage() {
-    if (this.gameOver === "x") alert("X wins.");
-    else if (this.gameOver === "o") alert("O wins.");
-  }
-
-  onWin() {
-    setTimeout(this._alertMessage.bind(this), 200);
-  }
-
-  reset() {
-    this.view = [
-      ["-", "-", "-"],
-      ["-", "-", "-"],
-      ["-", "-", "-"],
-    ];
-    this.count = 0;
-    this.gameOver = "";
-    this._render();
-  }
+  onWin() {}
+  onTie() {}
 }
