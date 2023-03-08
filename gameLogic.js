@@ -12,7 +12,6 @@ class TicTacToe {
       ["-", "-", "-"],
       ["-", "-", "-"],
     ];
-    this.count = 0;
     this.gameOver = "";
     this.turn = "x";
     this._init();
@@ -24,7 +23,6 @@ class TicTacToe {
     const initState = JSON.parse(window.localStorage.getItem("storeGameState"));
     if (initState) {
       this.view = initState.view;
-      this.count = initState.count;
       this.gameOver = initState.gameOver;
       this.turn = initState.turn;
       this._init();
@@ -51,7 +49,6 @@ class TicTacToe {
   _storeGameStateToLocal() {
     const StoreGameState = {
       view: this.view,
-      count: this.count,
       gameOver: this.gameOver,
       turn: this.turn,
     };
