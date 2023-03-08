@@ -6,6 +6,7 @@ class TicTacToe {
   turn;
 
   reset() {
+    window.localStorage.removeItem("storeGameState");
     this.view = [
       ["-", "-", "-"],
       ["-", "-", "-"],
@@ -14,13 +15,23 @@ class TicTacToe {
     this.count = 0;
     this.gameOver = "";
     this.turn = "x";
+    this._init();
     this._render();
   }
 
   constructor(wrapper) {
     this.wrapper = wrapper;
-    this.reset();
-    this._init();
+    const initState = JSON.parse(window.localStorage.getItem("storeGameState"));
+    if (initState) {
+      this.view = initState.view;
+      this.count = initState.count;
+      this.gameOver = initState.gameOver;
+      this.turn = initState.turn;
+      this._init();
+      this._render();
+    } else {
+      this.reset();
+    }
   }
 
   _render() {
@@ -35,6 +46,19 @@ class TicTacToe {
           this.wrapper.children[nthChild].innerText = "O";
       }
     }
+  }
+
+  _storeGameStateToLocal() {
+    const StoreGameState = {
+      view: this.view,
+      count: this.count,
+      gameOver: this.gameOver,
+      turn: this.turn,
+    };
+    window.localStorage.setItem(
+      "storeGameState",
+      JSON.stringify(StoreGameState)
+    );
   }
 
   _init() {
@@ -53,6 +77,7 @@ class TicTacToe {
           this._render();
           this._checkLine();
           this._yourTurn();
+          this._storeGameStateToLocal();
         }
       });
     }
@@ -64,7 +89,6 @@ class TicTacToe {
   }
 
   _checkTie() {
-    console.log(this.view.flat());
     if (!this.view.flat().includes("-")) setTimeout(this.onTie);
   }
 
