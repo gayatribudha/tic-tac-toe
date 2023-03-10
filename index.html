@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>tic-tac-toe</title>
+    <link rel="stylesheet" type="text/css" href="css/styles.css" />
+  </head>
+  <body>
+    <div class="wrapper">
+      <div class="item"></div>
+      <div class="item"></div>
+      <div class="item"></div>
+      <div class="item"></div>
+      <div class="item"></div>
+      <div class="item"></div>
+      <div class="item"></div>
+      <div class="item"></div>
+      <div class="item"></div>
+    </div>
+    <div class="btn-wrap">
+      <button class="btn" onclick="game1.reset()">RESET</button>
+    </div>
+    <div class="gameOver"></div>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="js/gameLogic.js"></script>
+    <script src="js/script.js"></script>
+  </body>
+</html>
