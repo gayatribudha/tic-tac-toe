@@ -1,7 +1,7 @@
 {
-  "name": "socket-chat-example",
+  "name": "tic-tac-toe-game",
   "version": "0.0.1",
-  "description": "my first socket.io app",
+  "description": "Tic tac toe game",
   "scripts": {
     "start": "nodemon app.js"
   },
