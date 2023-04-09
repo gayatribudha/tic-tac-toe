@@ -4,6 +4,7 @@ class TicTacToe {
   view;
   gameOver;
   turn;
+  blockTurn;
 
   constructor(wrapper) {
     this.wrapper = wrapper;
@@ -48,13 +49,13 @@ class TicTacToe {
       nthChild++
     ) {
       this.wrapper.children[nthChild].addEventListener("click", (e) => {
+        if (this.turn === this.blockTurn) return;
         const i = (nthChild - (nthChild % 3)) / 3;
         const j = nthChild % 3;
         if (this.gameOver === "" && this.view[i][j] === "-") {
           if (this.turn === "x") {
             this.view[i][j] = "x";
           } else if (this.turn === "o") this.view[i][j] = "o";
-          this._checkLine();
           this._yourTurn();
           this.onGameStateChange({
             view: this.view,
@@ -112,7 +113,19 @@ class TicTacToe {
     this.gameOver = gameState.gameOver;
     this.turn = gameState.turn;
     this._render();
+    this._checkLine();
   }
 
-  onGameStateChange() {}
+  checkPlayer() {}
+
+  onGameStateChange() {
+    this._checkLine();
+    this.onGameStateChangeEvent({
+      view: this.view,
+      gameOver: this.gameOver,
+      turn: this.turn,
+    });
+  }
+
+  onGameStateChangeEvent() {}
 }
