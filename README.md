@@ -1,6 +1,8 @@
 # tic-tac-toe
 
-Play right away ()
+Play right away
+- Hit [http://gayatrib.me/game1] (in palce of game1, you can give any name), this opens the page for player X
+- Open the same url([http://gayatrib.me/game1]) in a new tab or new browser, this opens the page for player O
 
 Simple and fun game built from javascript.
 
